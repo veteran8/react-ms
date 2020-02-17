@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import { Route, Switch,Redirect } from "react-router-dom";
-import { adminRouter } from "./routes";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { adminRoutes } from "./routes";
+import { Frame } from "./components";
 
+const menus = adminRoutes.filter(route => {
+  return route.isNav === true;
+});
 export default class App extends Component {
   render() {
     return (
-      <div>
-        {/* <Button type='primary'>9999</Button> */}
-        <div>这里是公共页面</div>
+      <Frame menus={menus}>
         <Switch>
-          {adminRouter.map(route => {
+          {adminRoutes.map(route => {
             return (
               <Route
                 key={route.pathname}
@@ -21,10 +23,10 @@ export default class App extends Component {
               />
             );
           })}
-          <Redirect to={adminRouter[0].pathname} from='/admin' exact />
-          <Redirect to='/404' />
+          <Redirect to={adminRoutes[0].pathname} from="/admin" exact />
+          <Redirect to="/404" />
         </Switch>
-      </div>
+      </Frame>
     );
   }
 }
