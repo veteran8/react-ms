@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class ArticleList extends Component {
+export default class Setting extends Component {
   render() {
     return (
       <div>
-        文章列表
+        设置页
       </div>
     )
   }
