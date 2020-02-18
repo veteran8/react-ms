@@ -18,7 +18,9 @@ export default class ArticleList extends Component {
     this.state = {
       dataSource: [],
       columns: [],
-      isLoading: false
+      isLoading: false,
+      offset: 0,
+      limited: 0
     };
   }
   createColumns = columnKeys => {
@@ -70,7 +72,8 @@ export default class ArticleList extends Component {
     this.setState({
       isLoading: true
     });
-    getArtciles()
+    const { offset, limited } = this.state;
+    getArtciles(offset, limited)
       .then(res => {
         const columnKeys = Object.keys(res.data.list[0]);
         const columns = this.createColumns(columnKeys);
@@ -87,6 +90,18 @@ export default class ArticleList extends Component {
           isLoading: false
         });
       });
+  };
+  pageChageHandler = (page, pageSize) => {
+    console.log(page, pageSize, 9999);
+    this.setState(
+      {
+        offset: pageSize * (page - 1),
+        limited: pageSize
+      },
+      () => {
+        this.getData(this.state.offset, this.limited);
+      }
+    );
   };
 
   componentDidMount() {
@@ -105,7 +120,8 @@ export default class ArticleList extends Component {
             }}
             pagination={{
               pageSize: 10,
-              total: this.state.total
+              total: this.state.total,
+              onChange: this.pageChageHandler
             }}
           />
         </Card>
