@@ -12,7 +12,6 @@ class Frame extends Component {
   };
 
   render() {
-    console.log(this.props, 1111);
     return (
       <Layout style={{ minHeight: "100%" }}>
         <Header className="header">
