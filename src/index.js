@@ -8,6 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 import { mainRoutes } from "./routes";
+import './index.less'
 
 render(
   <Router>

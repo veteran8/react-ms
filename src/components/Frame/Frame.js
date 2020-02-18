@@ -14,51 +14,48 @@ class Frame extends Component {
   render() {
     console.log(this.props, 1111);
     return (
-      <div>
+      <Layout style={{ minHeight: "100%" }}>
+        <Header className="header">
+          <div className="logo" />
+        </Header>
         <Layout>
-          <Header className="header">
-            <div className="logo" />
-          </Header>
-          <Layout>
-            <Sider width={200} style={{ background: "#fff" }}>
-              <Menu
-                mode="inline"
-                defaultSelectedKeys={this.props.location.pathname}
-                selectedKeys={this.props.location.pathname}
-                onClick={this.onMenuClick}
-                style={{ height: "100%", borderRight: 0 }}
-              >
-                {this.props.menus.map(route => {
-                  return (
-                    <Menu.Item key={route.pathname}>
-                      <Icon type={route.icon} />
-                      {route.title}
-                    </Menu.Item>
-                  );
-                })}
-              </Menu>
-            </Sider>
-            <Layout style={{ padding: "0 24px 24px" }}>
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>List</Breadcrumb.Item>
-                <Breadcrumb.Item>App</Breadcrumb.Item>
-              </Breadcrumb>
-              <Content
-                style={{
-                  background: "#fff",
-                  padding: 24,
-                  margin: 0,
-                  minHeight: 280
-                }}
-              >
-                {this.props.children}
-              </Content>
-            </Layout>
+          <Sider width={200} style={{ background: "#fff" }}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={this.props.location.pathname}
+              selectedKeys={this.props.location.pathname}
+              onClick={this.onMenuClick}
+              style={{ height: "100%", borderRight: 0 }}
+            >
+              {this.props.menus.map(route => {
+                return (
+                  <Menu.Item key={route.pathname}>
+                    <Icon type={route.icon} />
+                    {route.title}
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          </Sider>
+          <Layout style={{ padding: "0 24px 24px" }}>
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
+            </Breadcrumb>
+            <Content
+              style={{
+                background: "#fff",
+                padding: 24,
+                margin: 0,
+                minHeight: 280
+              }}
+            >
+              {this.props.children}
+            </Content>
           </Layout>
         </Layout>
-        ,
-      </div>
+      </Layout>
     );
   }
 }
