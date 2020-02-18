@@ -28,3 +28,6 @@ export const getArtciles = (offset = 0, limited = 10) => {
     limited
   });
 };
+export const deleteArtcile = id => {
+  return service.post(`/api/v1/articleList/delete/${id}`)
+};

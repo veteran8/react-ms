@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Card, Button, Table, Tag } from "antd";
+import { Card, Button, Table, Tag, Modal, message } from "antd";
 import moment from "moment";
-import { getArtciles } from "../../request";
+import { getArtciles, deleteArtcile } from "../../request";
 
 const ButtonGroup = Button.Group;
 
@@ -56,16 +56,35 @@ export default class ArticleList extends Component {
     columns.push({
       title: "操作",
       key: "action",
-      render: () => {
+      render: (text, record) => {
         return (
           <ButtonGroup>
-            <Button type="danger">取消</Button>
-            <Button type="primary">ok</Button>
+            <Button type="primary">编辑</Button>
+            <Button
+              type="danger"
+              onClick={this.deleteArticle.bind(this, record.id)}
+            >
+              删除
+            </Button>
           </ButtonGroup>
         );
       }
     });
     return columns;
+  };
+  deleteArticle = id => {
+    Modal.confirm({
+      title: `删除确认${id}`,
+      content: `此操作不可逆,请谨慎`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk() {
+        deleteArtcile(id).then(res => {
+          console.log(res, 9999999);
+          message.success(res.data.msg)
+        });
+      }
+    });
   };
 
   getData = () => {
@@ -77,7 +96,7 @@ export default class ArticleList extends Component {
       .then(res => {
         const columnKeys = Object.keys(res.data.list[0]);
         const columns = this.createColumns(columnKeys);
-        console.log("res", res);
+        // console.log("res", res);
         this.setState({
           total: res.data.total,
           columns,
