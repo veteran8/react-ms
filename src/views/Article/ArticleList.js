@@ -23,6 +23,12 @@ export default class ArticleList extends Component {
       limited: 0
     };
   }
+  toEdit = id => {
+    this.props.history.push({
+      pathname: `/admin/edit/:${id}`
+    });
+  };
+
   createColumns = columnKeys => {
     const columns = columnKeys.map(item => {
       if (item === "amount") {
@@ -59,7 +65,9 @@ export default class ArticleList extends Component {
       render: (text, record) => {
         return (
           <ButtonGroup>
-            <Button type="primary">编辑</Button>
+            <Button type="primary" onClick={this.toEdit.bind(this, record.id)}>
+              编辑
+            </Button>
             <Button
               type="danger"
               onClick={this.deleteArticle.bind(this, record.id)}
@@ -73,6 +81,7 @@ export default class ArticleList extends Component {
     return columns;
   };
   deleteArticle = id => {
+    let that = this;
     Modal.confirm({
       title: `删除确认${id}`,
       content: `此操作不可逆,请谨慎`,
@@ -80,8 +89,8 @@ export default class ArticleList extends Component {
       cancelText: "取消",
       onOk() {
         deleteArtcile(id).then(res => {
-          console.log(res, 9999999);
-          message.success(res.data.msg)
+          message.success(res.data.msg);
+          that.getData();
         });
       }
     });

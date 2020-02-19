@@ -29,5 +29,8 @@ export const getArtciles = (offset = 0, limited = 10) => {
   });
 };
 export const deleteArtcile = id => {
-  return service.post(`/api/v1/articleList/delete/${id}`)
+  return service.post(`/api/v1/articleList/delete/${id}`);
+};
+export const getArtcileById = id => {
+  return service.post(`/api/v1/article/${id}`);
 };
