@@ -34,3 +34,6 @@ export const deleteArtcile = id => {
 export const getArtcileById = id => {
   return service.post(`/api/v1/article/${id}`);
 };
+export const saveArticle = (id, data) => {
+  return service.post(`/api/v1/editArticle/${id}`, data);
+};

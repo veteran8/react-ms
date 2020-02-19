@@ -1,9 +1,9 @@
 import React, { Component, createRef } from "react";
-import { Card, Button, Form, Input, DatePicker } from "antd";
+import { Card, Button, Form, Input, DatePicker, message, Spin } from "antd";
 import moment from "moment";
 import E from "wangeditor";
 import "./Edit.less";
-import { getArtcileById } from "../../request";
+import { getArtcileById, saveArticle } from "../../request";
 
 const formItemLayout = {
   labelCol: {
@@ -18,12 +18,29 @@ class Edit extends Component {
   constructor() {
     super();
     this.editorRef = createRef();
+    this.state = {
+      isLoading: false
+    };
   }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.setState({
+          isLoading: true
+        });
         console.log(values, 9999);
+        const data = Object.assign({}, values, {
+          createAt: values.createAt.valueOf()
+        });
+        console.log(data, 11111);
+        saveArticle(this.props.match.params.id, data).then(res => {
+          this.setState({
+            isLoading: false
+          });
+          console.log(res, 555);
+          message.success(res.data.msg);
+        });
       }
     });
   };
@@ -39,6 +56,9 @@ class Edit extends Component {
   };
   getData = () => {
     getArtcileById(this.props.match.params.id).then(res => {
+      this.setState({
+        isLoading: false
+      });
       let data = res.data;
       this.props.form.setFieldsValue({
         title: data.title,
@@ -53,6 +73,9 @@ class Edit extends Component {
   };
 
   componentDidMount() {
+    this.setState({
+      isLoading: true
+    });
     this.initEditor();
     this.getData();
   }
@@ -61,63 +84,65 @@ class Edit extends Component {
     return (
       <div>
         <Card title="编辑文章" bordered={false} extra={<Button>取消</Button>}>
-          <Form
-            {...formItemLayout}
-            onSubmit={this.handleSubmit}
-            className="login-form"
-          >
-            <Form.Item label="标题">
-              {getFieldDecorator("title", {
-                initialValue: "这是标题",
-                rules: [
-                  { required: true, message: "title是必填的" },
-                  { min: 4, message: "必须大于4位" },
-                  { max: 20, message: "必须小于20位" }
-                ]
-              })(<Input placeholder="标题" />)}
-            </Form.Item>
-            <Form.Item label="作者">
-              {getFieldDecorator("author", {
-                rules: [
-                  { required: true, message: "作者是必填的" },
-                  { min: 4, message: "必须大于4位" },
-                  { max: 20, message: "必须小于20位" }
-                ]
-              })(<Input placeholder="作者" />)}
-            </Form.Item>
-            <Form.Item label="阅读量">
-              {getFieldDecorator("amount", {
-                rules: [
-                  { required: true, message: "阅读量是必填的" },
-                  { min: 4, message: "必须大于4位" },
-                  { max: 20, message: "必须小于20位" }
-                ]
-              })(<Input placeholder="0" />)}
-            </Form.Item>
-            <Form.Item label="创建时间">
-              {getFieldDecorator("createAt", {
-                rules: [{ required: true, message: "创建时间是必填的" }]
-              })(<DatePicker showTime placeholder="修改时间" />)}
-            </Form.Item>
-            <Form.Item label="内容">
-              {getFieldDecorator("content", {
-                rules: [{ required: true, message: "内容是必填的" }]
-              })(<div className="editor" ref={this.editorRef}></div>)}
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                offset: 4
-              }}
+          <Spin spinning={this.state.isLoading}>
+            <Form
+              {...formItemLayout}
+              onSubmit={this.handleSubmit}
+              className="login-form"
             >
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
+              <Form.Item label="标题">
+                {getFieldDecorator("title", {
+                  initialValue: "这是标题",
+                  rules: [
+                    { required: true, message: "title是必填的" },
+                    { min: 4, message: "必须大于4位" },
+                    { max: 20, message: "必须小于20位" }
+                  ]
+                })(<Input placeholder="标题" />)}
+              </Form.Item>
+              <Form.Item label="作者">
+                {getFieldDecorator("author", {
+                  rules: [
+                    { required: true, message: "作者是必填的" },
+                    { min: 4, message: "必须大于4位" },
+                    { max: 20, message: "必须小于20位" }
+                  ]
+                })(<Input placeholder="作者" />)}
+              </Form.Item>
+              <Form.Item label="阅读量">
+                {getFieldDecorator("amount", {
+                  rules: [
+                    { required: true, message: "阅读量是必填的" },
+                    { min: 4, message: "必须大于4位" },
+                    { max: 20, message: "必须小于20位" }
+                  ]
+                })(<Input placeholder="0" />)}
+              </Form.Item>
+              <Form.Item label="创建时间">
+                {getFieldDecorator("createAt", {
+                  rules: [{ required: true, message: "创建时间是必填的" }]
+                })(<DatePicker showTime placeholder="修改时间" />)}
+              </Form.Item>
+              <Form.Item label="内容">
+                {getFieldDecorator("content", {
+                  rules: [{ required: true, message: "内容是必填的" }]
+                })(<div className="editor" ref={this.editorRef}></div>)}
+              </Form.Item>
+              <Form.Item
+                wrapperCol={{
+                  offset: 4
+                }}
               >
-                提交
-              </Button>
-            </Form.Item>
-          </Form>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                  提交
+                </Button>
+              </Form.Item>
+            </Form>
+          </Spin>
         </Card>
       </div>
     );
