@@ -37,3 +37,6 @@ export const getArtcileById = id => {
 export const saveArticle = (id, data) => {
   return service.post(`/api/v1/editArticle/${id}`, data);
 };
+export const getArtcileAmount = () => {
+  return service.post("/api/v1/articleAmount");
+};

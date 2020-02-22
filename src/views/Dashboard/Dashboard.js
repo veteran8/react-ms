@@ -1,6 +1,7 @@
 import React, { Component, createRef } from "react";
 import { Card, Row, Col } from "antd";
 import echarts from "echarts";
+import { getArtcileAmount } from "../../request";
 import "./Dashboard.less";
 export default class Dashboard extends Component {
   constructor() {
@@ -8,26 +9,34 @@ export default class Dashboard extends Component {
     this.articleAmount = createRef();
   }
   initArticleChart = () => {
-    this.articleChart = echarts.init(this.articleAmount.current);
-    let option = {
-      xAxis: {
-        type: "category",
-        data: ["一月", "二月", "三月", "四月", "五月  ", "六月"]
-      },
-      yAxis: {
-        type: "value"
-      },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330],
-          type: "line",
-          areaStyle: {}
-        }
-      ]
-    };
+    getArtcileAmount().then(res => {
+      console.log(res, 111);
+      let list = res.data.amount;
+      this.articleChart = echarts.init(this.articleAmount.current);
+      let option = {
+        xAxis: {
+          type: "category",
+          data: list.map(item => {
+            return item.month;
+          })
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: list.map(item => {
+              return item.value;
+            }),
+            type: "line",
+            areaStyle: {}
+          }
+        ]
+      };
 
-    // 使用刚指定的配置项和数据显示图表。
-    this.articleChart.setOption(option);
+      // 使用刚指定的配置项和数据显示图表。
+      this.articleChart.setOption(option);
+    });
   };
   componentDidMount() {
     this.initArticleChart();
