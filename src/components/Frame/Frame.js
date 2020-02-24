@@ -19,25 +19,29 @@ class Frame extends Component {
     this.props.history.push(key);
   };
 
-  menu = (
+  renderMenu = () => (
     <Menu onClick={this.clickMenuItem}>
-      <Menu.Item key="/admin/notifications">个人中心</Menu.Item>
+      <Menu.Item key="/admin/notifications">
+        <Badge dot={!!this.props.messageAmounts}>个人中心</Badge>
+      </Menu.Item>
       <Menu.Item key="/admin/settings">个人设置</Menu.Item>
       <Menu.Divider />
       <Menu.Item key="/login">退出登录</Menu.Item>
     </Menu>
   );
   render() {
-    console.log(this.props, 8888);
     return (
       <Layout style={{ minHeight: "100%" }}>
         <Header className="header qr-header">
           <div className="logo" />
-          <Dropdown overlay={this.menu} trigger={["click"]}>
+          <Dropdown overlay={this.renderMenu()} trigger={["click"]}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               <span>欢迎您,veteran</span>
-              <Badge count={5} offset={[0, -10]}></Badge>
+              <Badge
+                count={this.props.messageAmounts}
+                offset={[0, -10]}
+              ></Badge>
             </div>
           </Dropdown>
         </Header>
