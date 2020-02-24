@@ -4,7 +4,8 @@ import {
   NotFound,
   Settings,
   ArticleList,
-  ArticleEdit
+  ArticleEdit,
+  Notifications
 } from "../views";
 
 export const mainRoutes = [
@@ -24,25 +25,30 @@ export const adminRoutes = [
     component: Dashboard,
     title: "仪表盘",
     isNav: true,
-    icon:'dashboard'
+    icon: "dashboard"
   },
   {
     pathname: "/admin/settings",
     component: Settings,
-    title:'设置',
-    isNav:true,
-    icon:'setting'
+    title: "设置",
+    isNav: true,
+    icon: "setting"
   },
   {
     pathname: "/admin/article",
     component: ArticleList,
     exact: true,
-    title:'文章管理',
-    isNav:true,
-    icon:'unordered-list'
+    title: "文章管理",
+    isNav: true,
+    icon: "unordered-list"
   },
   {
     pathname: "/admin/edit/:id",
     component: ArticleEdit
+  },
+  {
+    pathname: "/admin/notifications",
+    component: Notifications,
+    title: "通知中心"
   }
 ];

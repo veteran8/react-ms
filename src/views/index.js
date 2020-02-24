@@ -42,4 +42,19 @@ const ArticleEdit = Loadable({
   },
   loading: Loading
 });
-export { Dashboard, Login, NotFound, Settings, ArticleList, ArticleEdit };
+
+const Notifications = Loadable({
+  loader: () => {
+    return import("./Notifications/Notifications");
+  },
+  loading: Loading
+});
+export {
+  Dashboard,
+  Login,
+  NotFound,
+  Settings,
+  ArticleList,
+  ArticleEdit,
+  Notifications
+};
