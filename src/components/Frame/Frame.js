@@ -17,7 +17,6 @@ class Frame extends Component {
   };
   //点击右上角menu
   clickMenuItem = ({ key }) => {
-    console.log(key);
     if (key === "/login") {
       this.props.logout();
     } else {
@@ -97,7 +96,6 @@ class Frame extends Component {
   }
 }
 const mapToState = state => {
-  console.log(state, "state");
   return {
     messageAmounts: state.notifications.list.filter(item => {
       return item.hasRead === false;

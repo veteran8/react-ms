@@ -29,16 +29,13 @@ class Edit extends Component {
         this.setState({
           isLoading: true
         });
-        console.log(values, 9999);
         const data = Object.assign({}, values, {
           createAt: values.createAt.valueOf()
         });
-        console.log(data, 11111);
         saveArticle(this.props.match.params.id, data).then(res => {
           this.setState({
             isLoading: false
           });
-          console.log(res, 555);
           message.success(res.data.msg);
         });
       }
@@ -68,7 +65,6 @@ class Edit extends Component {
         createAt: moment(data.createAt)
       });
       this.editor.txt.html(data.content);
-      console.log("res", res);
     });
   };
 

@@ -9,7 +9,6 @@ const menus = adminRoutes.filter(route => {
 });
 class App extends Component {
   render() {
-    console.log(this.props.isLogin, 777);
     return this.props.isLogin ? (
       <Frame menus={menus}>
         <Switch>
@@ -20,7 +19,13 @@ class App extends Component {
                 path={route.pathname}
                 exact={route.exact}
                 render={routerProps => {
-                  return <route.component {...routerProps} />;
+                  const hasPermission = route.roles.includes(this.props.role);
+                  console.log(hasPermission, "hasPermission+++");
+                  return hasPermission ? (
+                    <route.component {...routerProps} />
+                  ) : (
+                    <Redirect to="/admin/noAuth" />
+                  );
                 }}
               />
             );
@@ -35,9 +40,10 @@ class App extends Component {
   }
 }
 const mapToState = state => {
-  console.log(state, "state");
+  console.log(state, "App State++++");
   return {
-    isLogin: state.user.isLogin
+    isLogin: state.user.isLogin,
+    role: state.user.role
   };
 };
 

@@ -10,7 +10,6 @@ export default class Dashboard extends Component {
   }
   initArticleChart = () => {
     getArtcileAmount().then(res => {
-      console.log(res, 111);
       let list = res.data.amount;
       this.articleChart = echarts.init(this.articleAmount.current);
       let option = {

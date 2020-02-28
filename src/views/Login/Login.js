@@ -12,14 +12,12 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         this.props.login(values);
       }
     });
   };
 
   render() {
-    console.log(this.props, 999);
     const { getFieldDecorator } = this.props.form;
     return this.props.isLogin ? (
       <Redirect to="/admin" />

@@ -46,7 +46,6 @@ class Notifications extends Component {
   }
 }
 const mapToState = state => {
-  console.log(state, 111);
   return {
     list: state.notifications.list,
     isLoading: state.notifications.isLoading

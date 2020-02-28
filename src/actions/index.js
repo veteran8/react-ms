@@ -13,7 +13,6 @@ const finishMakeAsRead = () => {
 };
 
 export const makeMessageAsRead = id => {
-  console.log("id", id);
   return dispatch => {
     dispatch(startMakeAsRead());
     //模拟服务端请求

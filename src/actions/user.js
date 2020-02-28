@@ -46,13 +46,10 @@ export const login = userInfo => {
           }
           dispatch(loginSuccess(loginRes.data.data));
         } else {
-          console.log("");
           dispatch(loginFailed());
         }
       })
-      .catch(err => {
-        console.log(err, "登录err++++");
-      });
+      .catch(err => {});
   };
 };
 

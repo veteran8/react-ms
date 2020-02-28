@@ -2,6 +2,7 @@ import actionTypes from "../actions/actionTypes";
 const isLogin =
   Boolean(localStorage.getItem("authToken")) ||
   Boolean(sessionStorage.getItem("authToken"));
+
 const userInfo =
   JSON.parse(localStorage.getItem("userInfo")) ||
   JSON.parse(sessionStorage.getItem("userInfo"));
@@ -10,8 +11,8 @@ const initState = {
   isLogin: isLogin,
   isLoading: false
 };
+
 export default (state = initState, action) => {
-  console.log(action, "action");
   switch (action.type) {
     case actionTypes.START_LOGIN:
       return {
@@ -21,7 +22,7 @@ export default (state = initState, action) => {
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        ...action.payLoad.userInfo,
+        ...action.payLoad,
         isLogin: true,
         isLoading: false
       };
@@ -31,7 +32,8 @@ export default (state = initState, action) => {
         displayName: "",
         avatar: "",
         isLoading: false,
-        isLogin: false
+        isLogin: false,
+        role: ""
       };
     default:
       return state;

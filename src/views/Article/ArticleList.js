@@ -105,7 +105,9 @@ export default class ArticleList extends Component {
       .then(res => {
         const columnKeys = Object.keys(res.data.list[0]);
         const columns = this.createColumns(columnKeys);
-        // console.log("res", res);
+        if (!this.updater.isMounted(this)) {
+          return;
+        }
         this.setState({
           total: res.data.total,
           columns,
@@ -120,7 +122,6 @@ export default class ArticleList extends Component {
       });
   };
   pageChageHandler = (page, pageSize) => {
-    console.log(page, pageSize, 9999);
     this.setState(
       {
         offset: pageSize * (page - 1),
