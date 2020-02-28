@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { adminRoutes } from "./routes";
 import { Frame } from "./components";
+import { connect } from "react-redux";
 
 const menus = adminRoutes.filter(route => {
   return route.isNav === true;
 });
-export default class App extends Component {
+class App extends Component {
   render() {
-    return (
+    console.log(this.props.isLogin, 777);
+    return this.props.isLogin ? (
       <Frame menus={menus}>
         <Switch>
           {adminRoutes.map(route => {
@@ -27,6 +29,16 @@ export default class App extends Component {
           <Redirect to="/404" />
         </Switch>
       </Frame>
+    ) : (
+      <Redirect to="/login" />
     );
   }
 }
+const mapToState = state => {
+  console.log(state, "state");
+  return {
+    isLogin: state.user.isLogin
+  };
+};
+
+export default connect(mapToState)(App);

@@ -5,6 +5,9 @@ const isDev = process.env.NODE_ENV === "development";
 const service = axios.create({
   baseURL: isDev ? "http://rap2api.taobao.org/app/mock/244674" : ""
 });
+const loginService = axios.create({
+  baseURL: isDev ? "http://rap2api.taobao.org/app/mock/244674" : ""
+});
 
 service.interceptors.request.use(config => {
   config.data = Object.assign({}, config.data, {
@@ -28,15 +31,23 @@ export const getArtciles = (offset = 0, limited = 10) => {
     limited
   });
 };
+
 export const deleteArtcile = id => {
   return service.post(`/api/v1/articleList/delete/${id}`);
 };
+
 export const getArtcileById = id => {
   return service.post(`/api/v1/article/${id}`);
 };
+
 export const saveArticle = (id, data) => {
   return service.post(`/api/v1/editArticle/${id}`, data);
 };
+
 export const getArtcileAmount = () => {
   return service.post("/api/v1/articleAmount");
+};
+
+export const loginRequest = userInfo => {
+  return loginService.post("/api/v1/login", userInfo);
 };

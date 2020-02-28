@@ -16,13 +16,7 @@ render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route
-          path="/admin"
-          render={routerProps => {
-            //todo 权限:需要登录才能访问/admin
-            return <App {...routerProps} />;
-          }}
-        />
+        <Route path="/admin" component={App} />
         {mainRoutes.map(route => {
           return (
             <Route
