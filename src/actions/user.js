@@ -15,8 +15,12 @@ const loginSuccess = userInfo => {
 };
 
 const loginFailed = () => {
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("userInfo");
+  sessionStorage.removeItem("authToken");
+  sessionStorage.removeItem("userInfo");
   return {
-    type: actionTypes.loginFailed
+    type: actionTypes.LOGIN_FAILED
   };
 };
 
@@ -25,8 +29,21 @@ export const login = userInfo => {
     dispatch(startLogin());
     loginRequest(userInfo)
       .then(loginRes => {
+        let authToken = loginRes.data.data.authToken;
         if (loginRes.status === 200) {
-          console.log("登录成功");
+          if (userInfo.remember === true) {
+            localStorage.setItem("authToken", authToken);
+            localStorage.setItem(
+              "userInfo",
+              JSON.stringify(loginRes.data.data)
+            );
+          } else {
+            sessionStorage.setItem("authToken", authToken);
+            sessionStorage.setItem(
+              "userInfo",
+              JSON.stringify(loginRes.data.data)
+            );
+          }
           dispatch(loginSuccess(loginRes.data.data));
         } else {
           console.log("");
@@ -36,5 +53,12 @@ export const login = userInfo => {
       .catch(err => {
         console.log(err, "登录err++++");
       });
+  };
+};
+
+export const logout = () => {
+  return dispatch => {
+    //模拟退出登出
+    dispatch(loginFailed());
   };
 };

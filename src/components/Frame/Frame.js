@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 import "./Frame.less";
 import { connect } from "react-redux";
 
+import { logout } from "../../actions/user";
+
 const { Header, Content, Sider } = Layout;
 
 class Frame extends Component {
@@ -16,8 +18,14 @@ class Frame extends Component {
   //点击右上角menu
   clickMenuItem = ({ key }) => {
     console.log(key);
-    this.props.history.push(key);
+    if (key === "/login") {
+      this.props.logout();
+    } else {
+      this.props.history.push(key);
+    }
   };
+
+  logout = () => {};
 
   renderMenu = () => (
     <Menu onClick={this.clickMenuItem}>
@@ -26,7 +34,9 @@ class Frame extends Component {
       </Menu.Item>
       <Menu.Item key="/admin/settings">个人设置</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="/login">退出登录</Menu.Item>
+      <Menu.Item key="/login" onClick={this.logout}>
+        退出登录
+      </Menu.Item>
     </Menu>
   );
   render() {
@@ -36,7 +46,7 @@ class Frame extends Component {
           <div className="logo" />
           <Dropdown overlay={this.renderMenu()} trigger={["click"]}>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <Avatar src={this.props.avatar} />
               <span>欢迎您,veteran</span>
               <Badge
                 count={this.props.messageAmounts}
@@ -87,11 +97,13 @@ class Frame extends Component {
   }
 }
 const mapToState = state => {
+  console.log(state, "state");
   return {
     messageAmounts: state.notifications.list.filter(item => {
       return item.hasRead === false;
-    }).length
+    }).length,
+    avatar: state.user.avatar
   };
 };
 
-export default connect(mapToState)(withRouter(Frame));
+export default connect(mapToState, { logout })(withRouter(Frame));
