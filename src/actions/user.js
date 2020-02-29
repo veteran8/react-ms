@@ -59,3 +59,10 @@ export const logout = () => {
     dispatch(loginFailed());
   };
 };
+
+export const changeAvatar = avatarUrl => {
+  return {
+    type: actionTypes.CHANG_AVATAR,
+    payLoad: avatarUrl
+  };
+};

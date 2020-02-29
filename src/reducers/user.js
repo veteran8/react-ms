@@ -35,6 +35,11 @@ export default (state = initState, action) => {
         isLogin: false,
         role: ""
       };
+    case actionTypes.CHANG_AVATAR:
+      return {
+        ...state,
+        avatar: action.payLoad
+      };
     default:
       return state;
       break;

@@ -31,7 +31,7 @@ class Frame extends Component {
       <Menu.Item key="/admin/notifications">
         <Badge dot={!!this.props.messageAmounts}>个人中心</Badge>
       </Menu.Item>
-      <Menu.Item key="/admin/settings">个人设置</Menu.Item>
+      <Menu.Item key="/admin/profile">个人设置</Menu.Item>
       <Menu.Divider />
       <Menu.Item key="/login" onClick={this.logout}>
         退出登录
